@@ -11,6 +11,10 @@
         <tr>
             <td id="header">
                 <h1>PHP CRUD with Ajax</h1>
+                <div id="search-bar">
+                    <label for="">Search :</label>
+                    <input type="text" id="search" autocomplete="off">
+                </div>
             </td>
         </tr>
         <tr>
@@ -163,6 +167,19 @@
                             loadTable();
                         }
                     } 
+                });
+            });
+
+            // Live Search
+            $("#search").on("keyup", function(){
+                var search_term = $(this).val();
+                $.ajax({
+                    url : "ajax-live-search.php",
+                    type : "POST",
+                    data : { search : search_term },
+                    success : function(data){
+                        $("#table-data").html(data);
+                    }
                 });
             });
 
