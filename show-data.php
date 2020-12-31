@@ -46,6 +46,14 @@
             right: 15px;
             top: 15px;
         }
+        .delete-btn{
+            background: red;
+            color: #fff;
+            border: 0;
+            padding: 4px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
     </style>
     <title>Ajax Basic</title>
 </head>
@@ -68,9 +76,7 @@
         </tr>
         <tr>
             <td id="table-data">
-                <table border="1" width="100%" cellspacing="0" cellpadding="10px">
-
-                </table>
+                
             </td>
         </tr>
     </table>
@@ -126,6 +132,31 @@
                                 $("#error-message").html("Can't Save Record.").slideDown();
                                 $("#success-message").slideUp();
                             }                         
+                        }
+                    });
+                }
+                
+            });
+
+
+            // at the time of save data, save button is static so that upper process is followed.
+            // as the delete button is dynamically loaded so that process discussed below must be followed in this type of cases.
+            $(document).on("click", ".delete-btn", function(){
+                if(confirm("Do you really want to delete this record ?")){
+                    var studentId = $(this).data("id");
+                    var element = this;
+                    $.ajax({
+                        url : "ajax-delete.php",
+                        type : "POST",
+                        data : {id : studentId},
+                        success: function(data){
+                            if(data == 1){
+                                $(element).closest("tr").fadeOut();
+                                // don't refresh the table only remove the element which we want to delete and take those below tr(table row) to one step upper to show like table is refreshing. all this work is done by jQuery.
+                            }else{
+                                $("#error-message").html("Can't Delete Record.").slideDown();
+                                $("#success-message").slideUp();
+                            }
                         }
                     });
                 }
