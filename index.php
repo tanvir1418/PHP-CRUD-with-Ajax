@@ -24,6 +24,7 @@
             </td>
         </tr>
         <tr>
+            <!-- all data are shown on this table -->
             <td id="table-data">
                 
             </td>
@@ -33,12 +34,14 @@
     <div id="error-message"></div>
     <div id="success-message"></div>
 
+    <!-- Modal form for edit data -->
     <div id="modal">
         <div id="modal-form">
             <h2>Edit Form</h2>
             <table cellpadding="10px" width="100%">
                 
             </table>
+            <!-- for close special css on css file  -->
             <div id="close-btn">X</div>
         </div>
     </div>
@@ -49,6 +52,7 @@
         // When the document is ready then javascript will start working
         $(document).ready(function(){   
 
+            // when index.php page is loaded then this function will trigger automatically by loadTable() function
             function loadTable(){
                 $.ajax({
                     // Where the ajax query will perform
@@ -63,8 +67,10 @@
                 });
             }
 
+            // Load or Refresh table
             loadTable();
 
+            // Insert data or save data to database
             $("#save-button").on("click", function(e){
                 // prevent default is used to stop the default activity
                 e.preventDefault();
@@ -160,8 +166,8 @@
                 });
             });
 
-
         });
+        
     </script>
 </body>
 </html>
