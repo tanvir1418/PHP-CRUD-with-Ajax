@@ -3,65 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        *{
-            text-align:center;
-            font-size: 20px;
-        }
-        h1{
-            font-size: 48px;
-        }
-        #main{
-            margin: 10px auto;
-        }
-        #save-button{
-            color: black;
-            background-color: wheat;
-            padding: 10px;
-            margin: 20px;
-            border-radius: 15px;
-        }
-        #save-button:hover{
-            color: wheat;
-            background-color: black;
-            cursor: pointer;
-        }
-        #success-message{
-            background: #DEF1D8;
-            color: green;
-            padding: 10px;
-            margin: 10px;
-            display: none;
-            position: absolute;
-            right: 15px;
-            top: 15px;
-        }
-        #error-message{
-            background: #EFDCDD;
-            color: red;
-            padding: 10px;
-            margin: 10px;
-            display: none;
-            position: absolute;
-            right: 15px;
-            top: 15px;
-        }
-        .delete-btn{
-            background: red;
-            color: #fff;
-            border: 0;
-            padding: 4px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </style>
-    <title>Ajax Basic</title>
+    <title>PHP CRUD with Ajax</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <table id="main" border="0" cellspacing="0">
         <tr>
             <td id="header">
-                <h1>PHP with Ajax</h1>
+                <h1>PHP CRUD with Ajax</h1>
             </td>
         </tr>
         <tr>
@@ -84,6 +33,15 @@
     <div id="error-message"></div>
     <div id="success-message"></div>
 
+    <div id="modal">
+        <div id="modal-form">
+            <h2>Edit Form</h2>
+            <table cellpadding="10px" width="100%">
+                
+            </table>
+            <div id="close-btn">X</div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
@@ -162,6 +120,46 @@
                 }
                 
             });
+
+            //load data to update modal form
+            $(document).on("click", ".edit-btn", function(){
+                $("#modal").show();
+                var studentId = $(this).data("eid");
+                
+                $.ajax({
+                    url : "load-update-form.php",
+                    type : "POST",
+                    data : { id: studentId },
+                    success : function(data){
+                        $("#modal-form table").html(data);
+                    }
+                });
+            });
+
+            //Hide Modal Box
+            $("#close-btn").on("click", function(){
+                $("#modal").hide();
+            });
+
+            //Save update form
+            $(document).on("click", "#edit-submit", function(){
+                var stuId = $("#edit-id").val();
+                var fname = $("#edit-fname").val();
+                var lname = $("#edit-lname").val();
+
+                $.ajax({
+                    url : "ajax-update-form.php",
+                    type : "POST",
+                    data : {id: stuId, first_name: fname, last_name: lname},
+                    success : function(data){
+                        if(data == 1){
+                            $("#modal").hide();
+                            loadTable();
+                        }
+                    } 
+                });
+            });
+
 
         });
     </script>
